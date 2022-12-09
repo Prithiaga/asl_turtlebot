@@ -7,6 +7,7 @@ from asl_turtlebot.msg import DetectedObject
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import Twist, PoseArray, Pose2D, PoseStamped
 from std_msgs.msg import Float32MultiArray, String
+from visualization_msgs.msg import Marker
 import tf
 
 class Mode(Enum):
@@ -218,6 +219,33 @@ class Supervisor:
         return self.mode == Mode.CROSS and \
                rospy.get_rostime() - self.cross_start > rospy.Duration.from_sec(self.params.crossing_time)
 
+    def draw_marker(data):
+        createMarker(0, data.pose.position.x, data.pose.position.y, data.pose.position.z)
+        vis_pub.publish(marker)
+        print('Published marker!')
+
+    def createMarker(markerId, x, y, z):
+m       marker = Marker()
+        marker.header.frame_id = "map"
+        marker.header.stamp = rospy.Time()
+# IMPORTANT: If you're creating multiple markers,
+# each need to have a separate marker ID.
+        marker.id = markerId
+        marker.type = 2 # sphere
+        marker.pose.position.x = x
+        marker.pose.position.y = y
+        marker.pose.position.z = z
+        marker.pose.orientation.x = data.pose.orientation.x
+        marker.pose.orientation.y = data.pose.orientation.y
+        marker.pose.orientation.z = data.pose.orientation.z
+        marker.pose.orientation.w = data.pose.orientation.w
+        marker.scale.x = 0.1
+        marker.scale.y = 0.1
+        marker.scale.z = 0.1
+        marker.color.a = 1.0 # Don't forget to set the alpha!
+        marker.color.r = 0.0
+        marker.color.g = 1.0
+        marker.color.b = 0.0
     ########## Code ends here ##########
 
 

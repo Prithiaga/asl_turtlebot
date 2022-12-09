@@ -49,6 +49,7 @@
 
   <!-- ################ unconditonally useful scripts ##################### -->
   <node pkg="asl_turtlebot" type="goal_commander.py" name="goal_commander" />
+  <node pkg="asl_turtlebot" type="waypoints_controller.py" name="waypoints_controller" />
 
   <!-- ################ conditionally launched scripts #################### -->
   <group if="$(eval len(detector) > 0)">

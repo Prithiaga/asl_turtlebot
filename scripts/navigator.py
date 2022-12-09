@@ -67,7 +67,7 @@ class Navigator:
         self.plan_start = [0.0, 0.0]
 
         # Robot limits
-        self.v_max = 0.2  # maximum velocity
+        self.v_max = 0.3  # maximum velocity
         self.om_max = 0.4  # maximum angular velocity
 
         self.v_des = 0.12  # desired cruising velocity
@@ -269,7 +269,7 @@ class Navigator:
         are all properly set up / with the correct goals loaded
         """
         t = self.get_current_plan_time()
-
+        print("Current mode", self.mode)
         if self.mode == Mode.PARK:
             V, om = self.pose_controller.compute_control(
                 self.x, self.y, self.theta, t

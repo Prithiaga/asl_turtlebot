@@ -41,13 +41,13 @@ def create_transform_msg(translation, rotation, child_frame, base_frame, time=No
     t.header.stamp = time if time else rospy.Time.now()
     t.header.frame_id = base_frame
     t.child_frame_id = child_frame
-    t.transform.translation.x = translation[0]
-    t.transform.translation.y = translation[1]
-    t.transform.translation.z = translation[2]
+    t.transform.translation.x = translation[0]# + np.random.normal(0,0.05)
+    t.transform.translation.y = translation[1]# + np.random.normal(0,0.05)
+    t.transform.translation.z = translation[2]# + np.random.normal(0,0.05)
     t.transform.rotation.x = rotation[0]
     t.transform.rotation.y = rotation[1]
     t.transform.rotation.z = rotation[2]
-    t.transform.rotation.w = rotation[3]
+    t.transform.rotation.w = rotation[3] 
     return t
 
 class LocalizationVisualizer:
@@ -216,7 +216,9 @@ class LocalizationVisualizer:
                     particles.points[m].x = x[0]
                     particles.points[m].y = x[1]
                     particles.channels[0].values[m] = w
-                self.particles_pub.publish(particles)
+                r = np.random.uniform(0,1)
+                if r > 0.5:
+                    self.particles_pub.publish(particles)
 
             while len(self.scans) > 1:    # keep only the last element in the queue, if we're falling behind
                 self.scans.popleft()
